@@ -35,40 +35,38 @@
 // Initialize pins
 void setup()
 {
+	// Initialize neopixels
+	NEO_init();
+	delay(10);
+	NEO_clearAll();
 
-  // Initialize neopixels
-  NEO_init();
-  delay(10);
-  NEO_clearAll();
+	// Go in bootloader more if connected with encoder button pressed
+	if (!digitalRead(PIN_BTN_ENC))
+	{
+		NEO_writeHue(0, NEO_CYAN, NEO_BRIGHT_KEYS); // set led1 to cyan
+		NEO_writeHue(1, NEO_BLUE, NEO_BRIGHT_KEYS); // set led2 to blue
+		NEO_writeHue(2, NEO_MAG, NEO_BRIGHT_KEYS); //  set led3 to magenta
+		NEO_update();                              // update pixels
+		BOOT_now();     // jump to bootloader
+	}
 
-  // Go in bootloader more if connected with encoder button pressed
-  if (!digitalRead(PIN_BTN_ENC))
-  {
-    NEO_writeHue(0, NEO_CYAN, NEO_BRIGHT_KEYS); // set led1 to cyan
-    NEO_writeHue(1, NEO_BLUE, NEO_BRIGHT_KEYS); // set led2 to blue
-    NEO_writeHue(2, NEO_MAG, NEO_BRIGHT_KEYS); //  set led3 to magenta
-    NEO_update();                              // update pixels
-    BOOT_now();     // jump to bootloader
-  }
-
-  buttons_setup(PIN_BTN_1, PIN_BTN_2, PIN_BTN_3, PIN_BTN_ENC);
-  keyboard_setup();
-  encoder_setup(ENCODER_A, ENCODER_B);
-  led_set_mode(LED_LOOP);
-  USBInit();
+	buttons_setup(PIN_BTN_1, PIN_BTN_2, PIN_BTN_3, PIN_BTN_ENC);
+	keyboard_setup();
+	encoder_setup(ENCODER_A, ENCODER_B);
+	led_set_mode(LED_LOOP);
+	USBInit();
 }
 
 
 //Main loop, read buttons
 void loop()
 {
+	//task update
+	buttons_update();
+	auto_update();
+	encoder_update();
+	led_update();
 
-  //task update
-  buttons_update();
-  auto_update();
-  encoder_update();
-  led_update();
-
-  //debouncing
-  delay(5); 
+	//debouncing
+	delay(5); 
 }

@@ -6,10 +6,12 @@
 
 static button_function_t button_auto_s = {BUTTON_NULL};
 static uint8_t auto_counter_s = 0;
+static uint32_t last_update = 0;
 
 void auto_set_cycle(button_function_t button_auto)
 {
   auto_counter_s = 0;
+  last_update = 0;
   button_auto_s = button_auto;
   led_set_mode(LED_FIX);
   led_set_color_hue(NEO_RED, NEO_YEL, NEO_YEL);
@@ -21,11 +23,20 @@ void auto_update()
   {
     return;
   }
+
+  uint32_t current_time = millis();
+
   if (button_auto_s.type == BUTTON_AUTO_KEYBOARD)
   {
+	  if(current_time - last_update < button_auto_s.function.sequence.delay)
+	  {
+		  return;
+	  }
+	  last_update = current_time;
+
     led_set_color_hue(NEO_GREEN, NEO_YEL, NEO_YEL);
     Keyboard_press(button_auto_s.function.sequence.sequence[auto_counter_s]);
-    delay(button_auto_s.function.sequence.delay);
+    delay(10); // button_auto_s.function.sequence.delay);
 
     Keyboard_releaseAll();
     led_set_color_hue(NEO_GREEN, NEO_GREEN, NEO_YEL);
@@ -39,6 +50,12 @@ void auto_update()
   }
   if (button_auto_s.type == BUTTON_AUTO_MOUSE)
   {
+	  if(current_time - last_update < button_auto_s.function.mouse.delay)
+	  {
+		  return;
+	  }
+	  last_update = current_time;
+
     led_set_color_hue(NEO_GREEN, NEO_YEL, NEO_YEL);
     switch (button_auto_s.function.mouse.mouse_event_sequence[auto_counter_s].type)
     {
@@ -69,7 +86,8 @@ void auto_update()
     default:
       break;
     }
-    delay(button_auto_s.function.mouse.delay);
+    // delay(button_auto_s.function.mouse.delay);
+	delay(10);
     auto_counter_s++;
     if (auto_counter_s >= button_auto_s.function.mouse.length)
     {
