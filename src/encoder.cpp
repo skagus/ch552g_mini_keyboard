@@ -3,9 +3,9 @@
 // nice encoder tutorial: https://daniellethurow.com/blog/2021/8/30/how-to-use-quadrature-rotary-encoders
 // ============================================================================
 
-#include <Arduino.h>
-
 #include "keyboard.h"
+#include "neo/gpio.h"
+#include "config.h"
 
 static int prevVal_s = 0;
 static int newVal_s;
@@ -17,9 +17,6 @@ static int lookupTable_s[4][4] = {{0, -1, 1, 2},
                                   {1, 0, 2, -1},
                                   {-1, 2, 0, 1},
                                   {2, 1, -1, 0}};
-
-static uint8_t encoder_a_s = 0;
-static uint8_t encoder_b_s = 0;
 
 static void encoder_cw(void);
 static void encoder_ccw(void);
@@ -34,21 +31,19 @@ static void encoder_ccw(void)
     keyboard_press_button(ENC_CCW, BTM_CLICK);
 }
 
-void encoder_setup(uint8_t pin_a, uint8_t pin_b)
+void encoder_setup()
 {
-    encoder_a_s = pin_a;
-    encoder_b_s = pin_b;
-    pinMode(pin_a, INPUT_PULLUP);
-    pinMode(pin_b, INPUT_PULLUP);
-    int valA = digitalRead(encoder_a_s);
-    int valB = digitalRead(encoder_b_s);
+	PIN_input_PU(PIN_ENC_A);
+	PIN_input_PU(PIN_ENC_B);
+	int valA = PIN_read(PIN_ENC_A);
+	int valB = PIN_read(PIN_ENC_B);
     prevVal_s = (valA << 1) + valB;
 }
 
 void encoder_update()
 {
-    int valA = digitalRead(encoder_a_s);
-    int valB = digitalRead(encoder_b_s);
+	int valA = PIN_read(PIN_ENC_A);
+	int valB = PIN_read(PIN_ENC_B);
     newVal_s = (valA << 1) + valB;
 
     int info = lookupTable_s[prevVal_s][newVal_s];

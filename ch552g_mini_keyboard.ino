@@ -5,7 +5,7 @@
 //lib include
 #include "src/neo/neo.h"
 #include "src/userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
-
+#include "src/config.h"
 //app include
 #include "src/auto_mode.h"
 #include "src/buttons.h"
@@ -15,17 +15,6 @@
 #include "src/util.h"
 
 // Button (Mechnical, left to right)
-#define PIN_BTN_1 11
-#define PIN_BTN_2 17
-#define PIN_BTN_3 16
-#define PIN_BTN_ENC 33
-
-#define ENCODER_A 31
-#define ENCODER_B 30
-
-
-#define LED_PIN 34 // Pin for the LED strip, configure neo leds in src/neo/config.h
-
 
 
 
@@ -37,11 +26,11 @@ void setup()
 {
 	// Initialize neopixels
 	NEO_init();
-	delay(10);
+	DLY_ms(10);
 	NEO_clearAll();
 
 	// Go in bootloader more if connected with encoder button pressed
-	if (!digitalRead(PIN_BTN_ENC))
+	if(0 == PIN_read(PIN_ENC_SW))
 	{
 		NEO_writeHue(0, NEO_CYAN, NEO_BRIGHT_KEYS); // set led1 to cyan
 		NEO_writeHue(1, NEO_BLUE, NEO_BRIGHT_KEYS); // set led2 to blue
@@ -50,9 +39,8 @@ void setup()
 		BOOT_now();     // jump to bootloader
 	}
 
-	buttons_setup(PIN_BTN_1, PIN_BTN_2, PIN_BTN_3, PIN_BTN_ENC);
 	keyboard_setup();
-	encoder_setup(ENCODER_A, ENCODER_B);
+	encoder_setup();
 	led_set_mode(LED_LOOP);
 	USBInit();
 }
@@ -68,5 +56,5 @@ void loop()
 	led_update();
 
 	//debouncing
-	delay(5); 
+	DLY_ms(5); 
 }

@@ -1,5 +1,6 @@
-#include <Arduino.h>
+//#include <Arduino.h>
 #include "userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
+#include "neo/neo.h"
 #include "led.h"
 #include "keyboard.h"
 #include "auto_mode.h"
@@ -36,7 +37,7 @@ void auto_update()
 
     led_set_color_hue(NEO_GREEN, NEO_YEL, NEO_YEL);
     Keyboard_press(button_auto_s.function.sequence.sequence[auto_counter_s]);
-    delay(10); // button_auto_s.function.sequence.delay);
+    DLY_ms(10); // button_auto_s.function.sequence.delay);
 
     Keyboard_releaseAll();
     led_set_color_hue(NEO_GREEN, NEO_GREEN, NEO_YEL);
@@ -87,7 +88,7 @@ void auto_update()
       break;
     }
     // delay(button_auto_s.function.mouse.delay);
-	delay(10);
+	DLY_ms(10);
     auto_counter_s++;
     if (auto_counter_s >= button_auto_s.function.mouse.length)
     {

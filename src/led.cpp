@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "neo/neo.h"
 #include "led.h"
 

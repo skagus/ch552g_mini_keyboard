@@ -1,5 +1,6 @@
-	#include <Arduino.h>
 	#include "userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
+	#include "config.h"
+	#include "neo/neo.h"
 	#include "auto_mode.h"
 	#include "led.h"
 	#include "keyboard.h"
@@ -99,11 +100,11 @@
 		for (uint8_t i = 0; i < sequence.length; i++)
 		{
 			Keyboard_press(sequence.sequence[i]);
-			delay(10);
+			DLY_ms(10);
 			if (sequence.delay > 0)
 			{
 				Keyboard_release(sequence.sequence[i]);
-				delay(sequence.delay);
+				DLY_ms(sequence.delay);
 			}
 		}
 		Keyboard_releaseAll();
@@ -118,7 +119,7 @@
 		if (sequence.keypress > 0)
 		{
 			Keyboard_press(sequence.keypress);
-			delay(30);
+			DLY_ms(30);
 		}
 		for (uint8_t i = 0; i < sequence.length; i++)
 		{
@@ -155,7 +156,7 @@
 			{
 				Keyboard_releaseAll();
 			}
-			delay(sequence.delay);
+			DLY_ms(sequence.delay);
 		}
 	}
 
