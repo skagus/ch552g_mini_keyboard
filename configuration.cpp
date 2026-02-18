@@ -69,7 +69,7 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			[BTN_1] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-				.sequence = {'a'},
+					.sequence = {KEY_F13},
 					.length = 1,            // 시퀀스 길이
 					.delay = 0             // 지연 없음
 				}
@@ -77,7 +77,7 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			[BTN_2] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-					.sequence = {'b'},
+					.sequence = {KEY_F14},
 					.length = 1,
 					.delay = 0
 				}
@@ -85,37 +85,25 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			[BTN_3] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-					.sequence = {'c'},
+					.sequence = {KEY_F15},
 					.length = 1,
 					.delay = 0
 				}
 			},
 			[ENC_CW] = {
-				.type = BUTTON_MOUSE,
-				.function.mouse = {
-					.mouse_event_sequence = {
-						{
-							.type = SCROLL_UP,
-							.value = 1
-						}
-					},
+				.type = BUTTON_SEQUENCE,
+				.function.sequence = {
+					.sequence = {KEY_F16},
 					.length = 1,
-					.delay = 0,
-					.keypress = KEY_LEFT_CTRL
+					.delay = 0
 				}
 			},
 			[ENC_CCW] = {
-				.type = BUTTON_MOUSE,
-				.function.mouse = {
-					.mouse_event_sequence = {
-						{
-							.type = SCROLL_DOWN,
-							.value = 1
-						}
-					},
+				.type = BUTTON_SEQUENCE,
+				.function.sequence = {
+					.sequence = {KEY_F17},
 					.length = 1,
-					.delay = 0,
-					.keypress = KEY_LEFT_CTRL
+					.delay = 0
 				}
 			},
 			[BTN_ENC] = {

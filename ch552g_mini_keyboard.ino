@@ -41,7 +41,8 @@ void setup()
 
 	keyboard_setup();
 	encoder_setup();
-	led_set_mode(LED_LOOP);
+	led_set_mode(LED_FIX);
+	led_set_color_hue(NEO_RED, NEO_YEL, NEO_GREEN);
 	USBInit();
 }
 
