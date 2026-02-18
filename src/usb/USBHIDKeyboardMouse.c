@@ -2,8 +2,9 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
-#include "include/ch5xx.h"
-#include "include/ch5xx_usb.h"
+#include "../neo/ch554.h"
+#include "../neo/ch5xx_usb.h"
+#include "../neo/delay.h"
 #include "USBconstant.h"
 #include "USBhandler.h"
 // clang-format on
@@ -154,8 +155,6 @@ __code uint8_t _asciimap[128] = {
 
 typedef void (*pTaskFn)(void);
 
-void delayMicroseconds(uint16_t us);
-
 void USBInit() {
   USBDeviceCfg();         // Device mode configuration
   USBDeviceEndPointCfg(); // Endpoint configuration
@@ -187,7 +186,7 @@ uint8_t USB_EP1_send(__data uint8_t reportID) {
   waitWriteCount = 0;
   while (UpPoint1_Busy) { // wait for 250ms or give up
     waitWriteCount++;
-    delayMicroseconds(5);
+    DLY_us(5);
     if (waitWriteCount >= 50000)
       return 0;
   }
@@ -323,7 +322,7 @@ uint8_t Mouse_release(__data uint8_t k) {
 
 uint8_t Mouse_click(__data uint8_t k) {
   Mouse_press(k);
-  delayMicroseconds(10000);
+  DLY_us(10000);
   Mouse_release(k);
   return 1;
 }

@@ -3,10 +3,10 @@
 
 // clang-format off
 #include <stdint.h>
-#include "include/ch5xx.h"
-#include "include/ch5xx_usb.h"
-#include "usbCommonDescriptors/StdDescriptors.h"
-#include "usbCommonDescriptors/HIDClassCommon.h"
+#include "../neo/ch554.h"
+#include "../neo/ch5xx_usb.h"
+#include "StdDescriptors.h"
+#include "HIDClassCommon.h"
 // clang-format on
 
 #define EP0_ADDR 0

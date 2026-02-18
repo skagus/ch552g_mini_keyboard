@@ -1,6 +1,7 @@
 //#include <Arduino.h>
-#include "userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
+#include "usb/USBHIDKeyboardMouse.h"
 #include "neo/neo.h"
+#include "util.h"
 #include "led.h"
 #include "keyboard.h"
 #include "auto_mode.h"
@@ -9,11 +10,11 @@ static button_function_t button_auto_s = {BUTTON_NULL};
 static uint8_t auto_counter_s = 0;
 static uint32_t last_update = 0;
 
-void auto_set_cycle(button_function_t button_auto)
+void auto_set_cycle(button_function_t* button_auto)
 {
   auto_counter_s = 0;
   last_update = 0;
-  button_auto_s = button_auto;
+  button_auto_s = *button_auto;
   led_set_mode(LED_FIX);
   led_set_color_hue(NEO_RED, NEO_YEL, NEO_YEL);
 }

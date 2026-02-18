@@ -1,5 +1,5 @@
 #include "configuration.h"
-#include "src/userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
+#include "usb/USBHIDKeyboardMouse.h"
 
 const keyboard_configuration_t configurations[NUM_CONFIGURATION] = 
 {

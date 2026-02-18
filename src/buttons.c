@@ -17,6 +17,7 @@ static uint8_t bt2Active_s  = 0;
 static uint8_t bt3Active_s  = 0;
 static uint8_t btEncActive_s  = 0;
 
+#if 0
 // Button setup
 void buttons_setup()
 {
@@ -25,6 +26,7 @@ void buttons_setup()
 	PIN_input_PU(PIN_KEY3);
 	PIN_input_PU(PIN_ENC_SW);
 }
+#endif
 
 void buttons_update(void)
 {

@@ -1,10 +1,10 @@
-	#include "userUsbHidKeyboardMouse/USBHIDKeyboardMouse.h"
+	#include "usb/USBHIDKeyboardMouse.h"
 	#include "config.h"
 	#include "neo/neo.h"
 	#include "auto_mode.h"
 	#include "led.h"
 	#include "keyboard.h"
-	#include "../configuration.h"
+	#include "configuration.h"
 
 	#define MENU_CONF NUM_CONFIGURATION - 1
 
@@ -46,7 +46,7 @@
 	{
 		if (mode == BTM_PRESS)
 		{
-			auto_set_cycle(button_function_null);
+			auto_set_cycle(&button_function_null);
 			menu_mode_s = current_mode_s;
 			current_mode_s = MENU_CONF;
 			set_menu_led();
@@ -90,52 +90,52 @@
 		}
 	}
 
-	static void keyboard_run_key_sequence(button_sequence_t sequence, keyboard_button_keyboard_mode_t mode)
+	static void keyboard_run_key_sequence(button_sequence_t* sequence, keyboard_button_keyboard_mode_t mode)
 	{
 		if (mode == BTM_RELEASE)
 		{
 			return;
 		}
 
-		for (uint8_t i = 0; i < sequence.length; i++)
+		for (uint8_t i = 0; i < sequence->length; i++)
 		{
-			Keyboard_press(sequence.sequence[i]);
+			Keyboard_press(sequence->sequence[i]);
 			DLY_ms(10);
-			if (sequence.delay > 0)
+			if (sequence->delay > 0)
 			{
-				Keyboard_release(sequence.sequence[i]);
-				DLY_ms(sequence.delay);
+				Keyboard_release(sequence->sequence[i]);
+				DLY_ms(sequence->delay);
 			}
 		}
 		Keyboard_releaseAll();
 	}
 
-	static void keyboard_run_mouse_sequence(button_mouse_t sequence, keyboard_button_keyboard_mode_t mode)
+	static void keyboard_run_mouse_sequence(button_mouse_t* sequence, keyboard_button_keyboard_mode_t mode)
 	{
 		if (mode == BTM_RELEASE)
 		{
 			return;
 		}
-		if (sequence.keypress > 0)
+		if (sequence->keypress > 0)
 		{
-			Keyboard_press(sequence.keypress);
+			Keyboard_press(sequence->keypress);
 			DLY_ms(30);
 		}
-		for (uint8_t i = 0; i < sequence.length; i++)
+		for (uint8_t i = 0; i < sequence->length; i++)
 		{
-			switch (sequence.mouse_event_sequence[i].type)
+			switch (sequence->mouse_event_sequence[i].type)
 			{
 				case UP:
-					Mouse_move(0, -sequence.mouse_event_sequence[i].value);
+					Mouse_move(0, -sequence->mouse_event_sequence[i].value);
 					break;
 				case DOWN:
-					Mouse_move(0, sequence.mouse_event_sequence[i].value);
+					Mouse_move(0, sequence->mouse_event_sequence[i].value);
 					break;
 				case LEFT:
-					Mouse_move(-sequence.mouse_event_sequence[i].value, 0);
+					Mouse_move(-sequence->mouse_event_sequence[i].value, 0);
 					break;
 				case RIGH:
-					Mouse_move(sequence.mouse_event_sequence[i].value, 0);
+					Mouse_move(sequence->mouse_event_sequence[i].value, 0);
 					break;
 				case LEFT_CLICK:
 					Mouse_click(MOUSE_LEFT);
@@ -144,19 +144,19 @@
 					Mouse_click(MOUSE_RIGHT);
 					break;
 				case SCROLL_UP:
-					Mouse_scroll(sequence.mouse_event_sequence[i].value);
+					Mouse_scroll(sequence->mouse_event_sequence[i].value);
 					break;
 				case SCROLL_DOWN:
-					Mouse_scroll(-sequence.mouse_event_sequence[i].value);
+					Mouse_scroll(-sequence->mouse_event_sequence[i].value);
 					break;
 				default:
 					break;
 			}
-			if (sequence.keypress > 0)
+			if (sequence->keypress > 0)
 			{
 				Keyboard_releaseAll();
 			}
-			DLY_ms(sequence.delay);
+			DLY_ms(sequence->delay);
 		}
 	}
 
@@ -177,21 +177,21 @@
 		switch (configurations[current_mode_s].button[button].type)
 		{
 			case BUTTON_SEQUENCE:
-				keyboard_run_key_sequence(configurations[current_mode_s].button[button].function.sequence, mode);
+				keyboard_run_key_sequence(&configurations[current_mode_s].button[button].function.sequence, mode);
 				break;
 			case BUTTON_MOUSE:
-				keyboard_run_mouse_sequence(configurations[current_mode_s].button[button].function.mouse, mode);
+				keyboard_run_mouse_sequence(&configurations[current_mode_s].button[button].function.mouse, mode);
 				break;
 			case BUTTON_AUTO_KEYBOARD:
 				if (mode == BTM_PRESS)
 				{
-					auto_set_cycle(configurations[current_mode_s].button[button]);
+					auto_set_cycle(&configurations[current_mode_s].button[button]);
 				}
 				break;
 			case BUTTON_AUTO_MOUSE:
 				if (mode == BTM_PRESS)
 				{
-					auto_set_cycle(configurations[current_mode_s].button[button]);
+					auto_set_cycle(&configurations[current_mode_s].button[button]);
 				}
 				break;
 			case BUTTON_FUNCTION:
@@ -200,7 +200,7 @@
 			case BUTTON_NULL:
 				if (mode == BTM_PRESS)
 				{
-					auto_set_cycle(configurations[current_mode_s].button[button]);
+					auto_set_cycle(&configurations[current_mode_s].button[button]);
 				}
 				break;
 			default:

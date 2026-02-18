@@ -4,7 +4,7 @@
 
 
 // auto mode function, cycle the button sequence
-void auto_set_cycle(button_function_t button_auto);
+void auto_set_cycle(button_function_t* button_auto);
 
 // update auto mode task
 void auto_update( void );

@@ -3,8 +3,8 @@
 
 // clang-format off
 #include <stdint.h>
-#include "include/ch5xx.h"
-#include "include/ch5xx_usb.h"
+#include "../neo/ch554.h"
+#include "../neo/ch5xx_usb.h"
 // clang-format on
 
 #define KEY_LEFT_CTRL 0x80
