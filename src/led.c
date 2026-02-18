@@ -18,6 +18,7 @@ void led_set_color_hue(uint8_t led0, uint8_t led1, uint8_t led2)
 
 void led_set_mode(enum led_keyboard_mode_t mode)
 {
+	return;
   led_mode_s = mode;
   switch (mode)
   {
@@ -37,6 +38,7 @@ void led_presskey(int key)
 
 void led_update()
 {
+#if 0	
   if (led_mode_s == LED_LOOP)
   {
     for (int i = 0; i < 3; i++)
@@ -48,6 +50,7 @@ void led_update()
       }
     }
   }
+#endif
   for (int led = 0; led < 3; led++)
   {
     if (curretn_key_s == led)

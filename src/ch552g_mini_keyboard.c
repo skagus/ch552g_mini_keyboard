@@ -16,22 +16,29 @@
 
 void test_blink()
 {
-	static uint32_t cnt_run = 0;
-	switch(cnt_run % 3)
+	static uint32_t prv_tick = 0;
+	uint32_t now_tick = millis();
+	if(now_tick - prv_tick > 1000)
 	{
-		case 0:
-		NEO_writeColor(0, 100, 0, 0);
-		break;
-		case 1:
-		NEO_writeColor(0, 0, 100, 0);
-		break;
-		case 2:
-		NEO_writeColor(0, 0, 0, 100);
-		break;
-		default:
-		break;
+		prv_tick = now_tick;
+
+		static uint32_t cnt_run = 0;
+		switch(cnt_run % 3)
+		{
+			case 0:
+			NEO_writeColor(0, 100, 0, 0);
+			break;
+			case 1:
+			NEO_writeColor(0, 0, 100, 0);
+			break;
+			case 2:
+			NEO_writeColor(0, 0, 0, 100);
+			break;
+			default:
+			break;
+		}
+		cnt_run++;
 	}
-	cnt_run++;
 }
 
 /**
@@ -110,7 +117,7 @@ void setup()
 
 	keyboard_setup();
 	encoder_setup();
-	led_set_mode(LED_LOOP);
+//	led_set_mode(LED_LOOP);
 	USBInit();
 }
 
@@ -118,18 +125,12 @@ void setup()
 //Main loop, read buttons
 void loop()
 {
-	static uint32_t prv_tick = 0;
-	uint32_t now_tick = millis();
-	if(now_tick - prv_tick > 1000)
-	{
-		test_blink();
-		prv_tick = now_tick;
-	}
+	test_blink();
 	//task update
 	buttons_update();
 	auto_update();
 	encoder_update();
-//	led_update();
+	led_update();
 
 	NEO_update();
 	DLY_ms(1);

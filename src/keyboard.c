@@ -36,7 +36,7 @@
 		int led_index = menu_mode_s % 3;
 		int color_background = NEO_CYAN + (menu_mode_s / 3) * 32;
 
-		led_set_mode(LED_FIX);
+//		led_set_mode(LED_FIX);
 		led_set_color_hue((led_index == 0) ? NEO_RED : color_background,
 							(led_index == 1) ? NEO_RED : color_background,
 							(led_index == 2) ? NEO_RED : color_background);
@@ -54,7 +54,7 @@
 		if (mode == BTM_RELEASE)
 		{
 			current_mode_s = menu_mode_s;
-			led_set_mode(LED_LOOP);
+//			led_set_mode(LED_LOOP);
 		}
 	}
 
