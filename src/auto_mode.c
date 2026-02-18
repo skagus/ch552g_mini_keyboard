@@ -1,6 +1,6 @@
 //#include <Arduino.h>
 #include "usb/USBHIDKeyboardMouse.h"
-#include "neo/neo.h"
+#include "neo.h"
 #include "util.h"
 #include "led.h"
 #include "keyboard.h"

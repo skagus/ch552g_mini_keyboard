@@ -24,8 +24,8 @@ CSRC_XXX = \
 		src/key/buttons.c \
 		src/key/encoder.c \
 		src/key/keyboard.c \
-		src/led/led.c \
-		src/led/neo.c \
+		src/led.c \
+		src/neo.c \
 		src/usb/USBconstant.c \
 		src/usb/USBhandler.c \
 		src/usb/USBHIDKeyboardMouse.c \
@@ -35,17 +35,17 @@ CSRC_XXX = \
 		src/main.c
 
 CSRC = \
+		src/com/delay.c \
+		src/usb/USBconstant.c \
+		src/usb/USBhandler.c \
+		src/usb/USBHIDKeyboardMouse.c \
 		src/led.c \
 		src/auto_mode.c \
 		src/buttons.c \
 		src/encoder.c \
 		src/keyboard.c \
 		src/util.c \
-		src/neo/neo.c \
-		src/neo/delay.c \
-		src/usb/USBconstant.c \
-		src/usb/USBhandler.c \
-		src/usb/USBHIDKeyboardMouse.c \
+		src/neo.c \
 		src/configuration.c \
 		src/ch552g_mini_keyboard.c
 

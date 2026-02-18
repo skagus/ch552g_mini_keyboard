@@ -1,6 +1,6 @@
 	#include "usb/USBHIDKeyboardMouse.h"
 	#include "config.h"
-	#include "neo/neo.h"
+	#include "neo.h"
 	#include "auto_mode.h"
 	#include "led.h"
 	#include "keyboard.h"

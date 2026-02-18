@@ -2,9 +2,9 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
-#include "../neo/ch554.h"
-#include "../neo/ch5xx_usb.h"
-#include "../neo/delay.h"
+#include "../com/ch554.h"
+#include "../com/ch5xx_usb.h"
+#include "../com/delay.h"
 #include "USBconstant.h"
 #include "USBhandler.h"
 // clang-format on

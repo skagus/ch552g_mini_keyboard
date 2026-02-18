@@ -3,7 +3,7 @@
 #endif
 
 //lib include
-#include "neo/neo.h"
+#include "neo.h"
 #include "usb/USBHIDKeyboardMouse.h"
 #include "config.h"
 //app include
@@ -17,7 +17,7 @@
 void test_blink()
 {
 	static uint32_t cnt_run = 0;
-	switch(cnt_run % 3)
+	switch((cnt_run / 1000) % 3)
 	{
 		case 0:
 		NEO_writeColor(0, 100, 0, 0);
@@ -40,17 +40,11 @@ void test_blink()
 uint32_t gnTick;
 uint16_t gnPeriod;
 
-void timer_isr()
-{
-	gnTick++;
-	TL0 = (uint8_t)(gnPeriod & 0xFF);
-	TH0 = (uint8_t)((gnPeriod >> 8) & 0xFF);
-	test_blink();
-}
 // Period 24K -> 
 void timer_init(uint16_t nPeriod)
 {
 	gnPeriod = nPeriod;
+#if 1
 	TR0 = 0;
 	TMOD = (TMOD & ~bT0_M1 & ~bT0_GATE & ~bT0_CT) | bT0_M0;
 	T2MOD &= ~bT0_CLK;
@@ -60,6 +54,17 @@ void timer_init(uint16_t nPeriod)
 	ET0 = 1;
 
 	TR0 = 1;	// start.
+#else
+
+	TH0 = 0xFF;		/* 50ms timer value */
+	TL0 = 0x00;
+	TMOD = 0x01;		/* Timer0 mode1 */
+	
+	EA  = 1;         	/* Enable global interrupt */
+	ET0 = 1;         	/* Enable timer0 interrupt */
+	TR0 = 1;  	      	/* Start timer0 */
+#endif
+
 }
 
 uint32_t millis()
@@ -69,7 +74,10 @@ uint32_t millis()
 
 void TIMER_ISR(void) __interrupt(INT_NO_TMR0)
 {
-	timer_isr();
+	gnTick++;
+	TL0 = (uint8_t)(gnPeriod & 0xFF);
+	TH0 = (uint8_t)((gnPeriod >> 8) & 0xFF);
+	test_blink();
 }
 
 void USBInterrupt(void);
@@ -100,7 +108,8 @@ void setup()
 		NEO_update();                              // update pixels
 		BOOT_now();     // jump to bootloader
 	}
-	timer_init(63535);
+//	timer_init(63536);
+	timer_init(65036);
 
 	keyboard_setup();
 	encoder_setup();

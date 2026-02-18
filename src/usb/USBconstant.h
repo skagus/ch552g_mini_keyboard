@@ -3,8 +3,8 @@
 
 // clang-format off
 #include <stdint.h>
-#include "../neo/ch554.h"
-#include "../neo/ch5xx_usb.h"
+#include "../com/ch554.h"
+#include "../com/ch5xx_usb.h"
 #include "StdDescriptors.h"
 #include "HIDClassCommon.h"
 // clang-format on

@@ -1,6 +1,6 @@
 
 #include "config.h"
-#include "neo/neo.h"
+#include "neo.h"
 #include "keyboard.h"
 #include "util.h"
 #include "buttons.h"

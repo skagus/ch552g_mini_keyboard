@@ -103,22 +103,22 @@ void NEO_sendByte(uint8_t data) {
 // Write Buffer to Pixels
 // ===================================================================================
 void NEO_update(void) {
-  uint8_t i;
-  ptr = NEO_buffer;
-  EA = 0;
-  for(i=3*NEO_COUNT; i; i--) NEO_sendByte(*ptr++);
-  EA = 1;
-  NEO_latch();
+	uint8_t i;
+	ptr = NEO_buffer;
+	EA = 0;
+	for(i=3*NEO_COUNT; i; i--) NEO_sendByte(*ptr++);
+	EA = 1;
+	NEO_latch();
 }
 
 // ===================================================================================
 // Clear all Pixels
 // ===================================================================================
 void NEO_clearAll(void) {
-  uint8_t i;
-  ptr = NEO_buffer;
-  for(i=3*NEO_COUNT; i; i--) *ptr++ = 0;
-  NEO_update();
+	uint8_t i;
+	ptr = NEO_buffer;
+	for(i=3*NEO_COUNT; i; i--) *ptr++ = 0;
+	NEO_update();
 }
 
 // ===================================================================================

@@ -4,8 +4,8 @@
 // ============================================================================
 
 #include "keyboard.h"
-#include "neo/gpio.h"
-#include "neo/neo.h"
+#include "com/gpio.h"
+#include "neo.h"
 #include "config.h"
 
 static int prevVal_s = 0;
