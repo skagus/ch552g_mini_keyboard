@@ -17,7 +17,7 @@
 void test_blink()
 {
 	static uint32_t cnt_run = 0;
-	switch((cnt_run / 1000) % 3)
+	switch(cnt_run % 3)
 	{
 		case 0:
 		NEO_writeColor(0, 100, 0, 0);
@@ -44,7 +44,7 @@ uint16_t gnPeriod;
 void timer_init(uint16_t nPeriod)
 {
 	gnPeriod = nPeriod;
-#if 1
+
 	TR0 = 0;
 	TMOD = (TMOD & ~bT0_M1 & ~bT0_GATE & ~bT0_CT) | bT0_M0;
 	T2MOD &= ~bT0_CLK;
@@ -54,17 +54,6 @@ void timer_init(uint16_t nPeriod)
 	ET0 = 1;
 
 	TR0 = 1;	// start.
-#else
-
-	TH0 = 0xFF;		/* 50ms timer value */
-	TL0 = 0x00;
-	TMOD = 0x01;		/* Timer0 mode1 */
-	
-	EA  = 1;         	/* Enable global interrupt */
-	ET0 = 1;         	/* Enable timer0 interrupt */
-	TR0 = 1;  	      	/* Start timer0 */
-#endif
-
 }
 
 uint32_t millis()
@@ -77,7 +66,6 @@ void TIMER_ISR(void) __interrupt(INT_NO_TMR0)
 	gnTick++;
 	TL0 = (uint8_t)(gnPeriod & 0xFF);
 	TH0 = (uint8_t)((gnPeriod >> 8) & 0xFF);
-	test_blink();
 }
 
 void USBInterrupt(void);
@@ -86,6 +74,15 @@ void USB_ISR(void) __interrupt(INT_NO_USB)
 	USBInterrupt();
 }
 
+void SysClk()
+{
+	SAFE_MOD = 0x55;
+	SAFE_MOD = 0xAA;
+
+	CLOCK_CFG = CLOCK_CFG & ~MASK_SYS_CK_SEL | 0x06; // 24MHz
+
+	SAFE_MOD = 0x00;
+}
 
 
 // ===================================================================================
@@ -108,8 +105,8 @@ void setup()
 		NEO_update();                              // update pixels
 		BOOT_now();     // jump to bootloader
 	}
-//	timer_init(63536);
-	timer_init(65036);
+	SysClk();
+	timer_init(65536 - 2000); // Count 2000 with 24M/12(2M) --> 1 msec.
 
 	keyboard_setup();
 	encoder_setup();
@@ -121,6 +118,13 @@ void setup()
 //Main loop, read buttons
 void loop()
 {
+	static uint32_t prv_tick = 0;
+	uint32_t now_tick = millis();
+	if(now_tick - prv_tick > 1000)
+	{
+		test_blink();
+		prv_tick = now_tick;
+	}
 	//task update
 	buttons_update();
 	auto_update();
@@ -128,7 +132,7 @@ void loop()
 //	led_update();
 
 	NEO_update();
-	DLY_ms(1); 
+	DLY_ms(1);
 }
 
 
