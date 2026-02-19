@@ -34,16 +34,19 @@
 	static void set_menu_led(void)
 	{
 		int led_index = menu_mode_s % 3;
-		int color_background = NEO_CYAN + (menu_mode_s / 3) * 32;
+//		int color_background = NEO_CYAN + (menu_mode_s / 3) * 32;
 
 //		led_set_mode(LED_FIX);
-		led_set_color_hue((led_index == 0) ? NEO_RED : color_background,
-							(led_index == 1) ? NEO_RED : color_background,
-							(led_index == 2) ? NEO_RED : color_background);
+		led_set_color_hue((led_index == 0) ? NEO_RED : NEO_OFF,
+						  (led_index == 1) ? NEO_RED : NEO_OFF,
+						  (led_index == 2) ? NEO_RED : NEO_OFF);
 	}
 
-	void keyboard_press_enc(keyboard_button_keyboard_mode_t mode)
+	void keyboard_press_enc(uint16_t mode_btn)
 	{
+		keyboard_button_keyboard_mode_t mode = mode_btn >> 8;
+		keyboard_button_t btn = mode_btn & 0xFF;
+
 		if (mode == BTM_PRESS)
 		{
 			auto_set_cycle(&button_function_null);
@@ -58,8 +61,11 @@
 		}
 	}
 
-	void button_menu_up(keyboard_button_keyboard_mode_t mode)
+	void button_menu_up(uint16_t mode_btn)
 	{
+		keyboard_button_keyboard_mode_t mode = mode_btn >> 8;
+		keyboard_button_t btn = mode_btn & 0xFF;
+
 		if (mode == BTM_CLICK)
 		{
 			if (menu_mode_s >= MENU_CONF - 1)
@@ -74,8 +80,10 @@
 		}
 	}
 
-	void button_menu_down(keyboard_button_keyboard_mode_t mode)
+	void button_menu_down(uint16_t mode_btn)
 	{
+		keyboard_button_keyboard_mode_t mode = mode_btn >> 8;
+		keyboard_button_t btn = mode_btn & 0xFF;
 		if (mode == BTM_CLICK)
 		{
 			if (menu_mode_s <= 0)
@@ -85,6 +93,25 @@
 			else
 			{
 				menu_mode_s--;
+			}
+			set_menu_led();
+		}
+	}
+
+	void button_on_cfg(uint16_t mode_btn)
+	{
+		keyboard_button_keyboard_mode_t mode = mode_btn >> 8;
+		keyboard_button_t btn = mode_btn & 0xFF;
+		if(mode == BTM_PRESS)
+		{
+			switch(btn)
+			{
+				case BTN_1:
+				case BTN_2:
+				case BTN_3:
+					menu_mode_s = (int)btn;
+					break;
+				default:
 			}
 			set_menu_led();
 		}
@@ -195,7 +222,7 @@
 				}
 				break;
 			case BUTTON_FUNCTION:
-				configurations[current_mode_s].button[button].function.functionPointer(mode);
+				configurations[current_mode_s].button[button].function.functionPointer(((uint16_t)mode << 8) | (uint16_t)button);
 				break;
 			case BUTTON_NULL:
 				if (mode == BTM_PRESS)
@@ -210,5 +237,5 @@
 
 	void keyboard_setup()
 	{
-
+		set_menu_led();
 	}

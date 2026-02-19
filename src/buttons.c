@@ -30,69 +30,72 @@ void buttons_setup()
 
 void buttons_update(void)
 {
-    // Read the button states, default PULL HIGH (aka LOW Activate)
-    bt1Active_s  = !PIN_read(PIN_KEY1);
-    bt2Active_s  = !PIN_read(PIN_KEY2);
-    bt3Active_s  = !PIN_read(PIN_KEY3);
-    btEncActive_s  = !PIN_read(PIN_ENC_SW);
+	// Read the button states, default PULL HIGH (aka LOW Activate)
+	bt1Active_s  = !PIN_read(PIN_KEY1);
+	bt2Active_s  = !PIN_read(PIN_KEY2);
+	bt3Active_s  = !PIN_read(PIN_KEY3);
+	btEncActive_s  = !PIN_read(PIN_ENC_SW);
 
-    if (bt1ActiveState_s != bt1Active_s)
-    {
-        bt1ActiveState_s = bt1Active_s;
-        if (bt1Active_s)  
-        {
-            keyboard_press_button(BTN_1, BTM_PRESS);
-        }
-        else
-        {
-            keyboard_press_button(BTN_1, BTM_RELEASE);
-        }
-    }
+	if(btEncActive_s && bt1Active_s && bt2Active_s && bt3Active_s)
+	{
+		led_boot_mode();
+		// go in bootloader mode if press all buttons
+		BOOT_now();
+	}
 
-    // Button 2
-    if (bt2ActiveState_s != bt2Active_s)
-    {
-        bt2ActiveState_s = bt2Active_s;
-        if (bt2Active_s)  
-        {
-            keyboard_press_button(BTN_2, BTM_PRESS);
-        }
-        else
-        {
-            keyboard_press_button(BTN_2, BTM_RELEASE);
-        }
-    }
+	if (bt1ActiveState_s != bt1Active_s)
+	{
+		bt1ActiveState_s = bt1Active_s;
+		if (bt1Active_s)  
+		{
+			keyboard_press_button(BTN_1, BTM_PRESS);
+		}
+		else
+		{
+			keyboard_press_button(BTN_1, BTM_RELEASE);
+		}
+	}
 
-    // Button 3
-    if (bt3ActiveState_s != bt3Active_s)
-    {
-        bt3ActiveState_s = bt3Active_s;
-        if (bt3Active_s)  
-        {
-            keyboard_press_button(BTN_3, BTM_PRESS);
-        }
-        else
-        {
-            keyboard_press_button(BTN_3, BTM_RELEASE);
-        }
-    }
+	// Button 2
+	if (bt2ActiveState_s != bt2Active_s)
+	{
+		bt2ActiveState_s = bt2Active_s;
+		if (bt2Active_s)  
+		{
+			keyboard_press_button(BTN_2, BTM_PRESS);
+		}
+		else
+		{
+			keyboard_press_button(BTN_2, BTM_RELEASE);
+		}
+	}
 
-    // Button Encoder
-    if (btEncActiveState_s != btEncActive_s)
-    {
-        btEncActiveState_s = btEncActive_s;
-        if (btEncActive_s)  
-        {
-            keyboard_press_button(BTN_ENC, BTM_PRESS);
-        }
-        else
-        {
-            keyboard_press_button(BTN_ENC, BTM_RELEASE);
-        }
-    }
-    if (btEncActive_s  && bt1Active_s  && bt2Active_s  && bt3Active_s)
-    {
-        // go in bootloader mode if press all buttons
-        BOOT_now();
-    }
+	// Button 3
+	if (bt3ActiveState_s != bt3Active_s)
+	{
+		bt3ActiveState_s = bt3Active_s;
+		if (bt3Active_s)  
+		{
+			keyboard_press_button(BTN_3, BTM_PRESS);
+		}
+		else
+		{
+			keyboard_press_button(BTN_3, BTM_RELEASE);
+		}
+	}
+
+	// Button Encoder
+	if (btEncActiveState_s != btEncActive_s)
+	{
+		btEncActiveState_s = btEncActive_s;
+		if (btEncActive_s)  
+		{
+			keyboard_press_button(BTN_ENC, BTM_PRESS);
+		}
+		else
+		{
+			keyboard_press_button(BTN_ENC, BTM_RELEASE);
+		}
+	}
+
 }

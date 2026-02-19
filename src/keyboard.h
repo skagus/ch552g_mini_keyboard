@@ -77,7 +77,7 @@ typedef struct
 	{
 		button_sequence_t sequence;
 		button_mouse_t mouse;
-		void (*functionPointer)(keyboard_button_keyboard_mode_t mode);
+		void (*functionPointer)(uint16_t mode_btn);
 	} function;
 } button_function_t;
 
@@ -95,11 +95,13 @@ void keyboard_press_button( keyboard_button_t button,  keyboard_button_keyboard_
 void keyboard_setup(void);
 
 // keyboard encoder press to enter in menu
-void keyboard_press_enc(keyboard_button_keyboard_mode_t mode);
+void keyboard_press_enc(uint16_t mode_btn);
 
 // keyboard menu scroll uo
-void button_menu_up(keyboard_button_keyboard_mode_t mode);
+void button_menu_up(uint16_t mode_btn);
 
 // keyboard menu scroll down
-void button_menu_down(keyboard_button_keyboard_mode_t mode);
+void button_menu_down(uint16_t mode_btn);
 
+// button push with encoder push.
+void button_on_cfg(uint16_t mode_btn);

@@ -1,13 +1,15 @@
 #pragma once
+#include <stdint.h>
 // Key colors (hue value: 0..191)
-#define NEO_RED 0    // red
-#define NEO_YEL 32   // yellow
-#define NEO_GREEN 64 // green
-#define NEO_CYAN 96  // cyan
-#define NEO_BLUE 128 // blue
-#define NEO_MAG 160  // magenta
-#define NEO_WHITE 191  // white
-#define NEO_BRIGHT_KEYS 2
+#define NEO_RED    0x00F   // red
+#define NEO_YEL    0x0FF   // yellow
+#define NEO_GREEN  0x0F0   // green
+#define NEO_CYAN   0xFF0   // cyan
+#define NEO_BLUE   0xF00   // blue
+#define NEO_MAG    0xF0F   // magenta
+#define NEO_WHITE  0xFFF   // white
+#define NEO_OFF    0x000   // Off.
+#define NEO_BRIGHT_KEYS 1
 
 enum led_keyboard_mode_t
 {
@@ -15,6 +17,8 @@ enum led_keyboard_mode_t
   LED_FIX,
   LED_BLINK
 };
+
+void led_boot_mode();
 
 // change led mode
 void led_set_mode(enum led_keyboard_mode_t mode);

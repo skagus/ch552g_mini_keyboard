@@ -3,6 +3,105 @@
 
 const keyboard_configuration_t configurations[NUM_CONFIGURATION] = 
 {
+#if 0
+{	// 0
+	.button = { // 
+		[BTN_1] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'a'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_2] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'b'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_3] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'c'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[ENC_CW] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'d'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[ENC_CCW] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'e'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_ENC] = {
+			.type = BUTTON_FUNCTION,
+			.function.functionPointer = keyboard_press_enc,
+		},
+	}
+},
+
+{	// 1
+	.button = { // 
+		[BTN_1] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'1'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_2] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'2'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_3] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'3'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[ENC_CW] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'4'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[ENC_CCW] = {
+			.type = BUTTON_SEQUENCE,
+			.function.sequence = {
+				.sequence = {'5'},
+				.length = 1,
+				.delay = 0
+			}
+		},
+		[BTN_ENC] = {
+			.type = BUTTON_FUNCTION,
+			.function.functionPointer = keyboard_press_enc,
+		},
+	}
+},
+#else	
 	{
 		.button = { // 복사/붙여넣기 키보드 구성
 			[BTN_1] = {
@@ -69,15 +168,15 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			[BTN_1] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-				.sequence = {'a'},
-					.length = 1,            // 시퀀스 길이
-					.delay = 0             // 지연 없음
+					.sequence = {KEY_F13},
+					.length = 1,
+					.delay = 0
 				}
 			},
 			[BTN_2] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-					.sequence = {'b'},
+					.sequence = {KEY_F14},
 					.length = 1,
 					.delay = 0
 				}
@@ -85,37 +184,25 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			[BTN_3] = {
 				.type = BUTTON_SEQUENCE,
 				.function.sequence = {
-					.sequence = {'c'},
+					.sequence = {KEY_F15},
 					.length = 1,
 					.delay = 0
 				}
 			},
 			[ENC_CW] = {
-				.type = BUTTON_MOUSE,
-				.function.mouse = {
-					.mouse_event_sequence = {
-						{
-							.type = SCROLL_UP,
-							.value = 1
-						}
-					},
+				.type = BUTTON_SEQUENCE,
+				.function.sequence = {
+					.sequence = {KEY_F16},
 					.length = 1,
-					.delay = 0,
-					.keypress = KEY_LEFT_CTRL
+					.delay = 0
 				}
 			},
 			[ENC_CCW] = {
-				.type = BUTTON_MOUSE,
-				.function.mouse = {
-					.mouse_event_sequence = {
-						{
-							.type = SCROLL_DOWN,
-							.value = 1
-						}
-					},
-					.length = 1,
-					.delay = 0,
-					.keypress = KEY_LEFT_CTRL
+				.type = BUTTON_SEQUENCE,
+				.function.sequence = {
+				.sequence = {KEY_F17},
+				.length = 1,
+				.delay = 0
 				}
 			},
 			[BTN_ENC] = {
@@ -124,20 +211,20 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 			},
 		}
 	},
-
+#endif
 	{   // Automatic keyboard
 		.button = { // 
 			[BTN_1] = {
 				.type = BUTTON_AUTO_KEYBOARD,
 				.function.sequence = {
-				.sequence = {KEY_LEFT_CTRL}, // Ctrl+C (복사)
+				.sequence = {KEY_LEFT_CTRL},
 					.length = 1,
 					.delay = 5000
 				}
 			},
 			[BTN_2] = {
 				.type = BUTTON_AUTO_MOUSE,
-				.function.mouse = { //multi click
+				.function.mouse = {
 					.mouse_event_sequence = 
 					{
 						{
@@ -200,15 +287,18 @@ const keyboard_configuration_t configurations[NUM_CONFIGURATION] =
 		}
 	},
 	{   //Menu configuration
-		.button = { // 메뉴 구성
+	.button = { // 메뉴 구성
 			[BTN_1] = {
-				.type = BUTTON_NULL,
+				.type = BUTTON_FUNCTION,
+				.function.functionPointer = button_on_cfg,
 			},
 			[BTN_2] = {
-				.type = BUTTON_NULL,
+				.type = BUTTON_FUNCTION,
+				.function.functionPointer = button_on_cfg,
 			},
 			[BTN_3] = {
-				.type = BUTTON_NULL,
+				.type = BUTTON_FUNCTION,
+				.function.functionPointer = button_on_cfg,
 			},
 			[ENC_CW] = {
 				.type = BUTTON_FUNCTION,
